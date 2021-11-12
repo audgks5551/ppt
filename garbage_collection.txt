@@ -1,4 +1,14 @@
 1. GC란?
+Garbage collection란?
+가비지(Garbage): 더이상 의미없는 데이터
+컬렉션(collection): 더이상 의미없는 데이터를 정리한다.
+즉, 가비지 컬렉션은 더 이상 의미 없는 데이터의 정리, 메모리를 정리 한다는 의미이다. 
+Garbage collection은 JVM 힙 메모리 정리 알고리즘이다. JVM은 힙 메모리에 객체를 생성한다. 힙 메모리 내에서 더 이상 사용되지 않는 객체는 새로운 객체로 재할당될 수 있도록 정리시키는 과정이다. 일반적으로 객체가 다른 객체에 의해 더 이상 참조되지 않을 때, 그 객체는 정리 대상이다. 
+
+Q. Garbage collector란?
+말 그대로 Garbage collection을 수행하는 담당자이다.
+JVM에는 Garbage collection 알고리즘을 수행하는 Garbage collector가 있다. 힙 메모리에 객체가 더이상 필요없게 되면 JVM의 Garbage collector가 객체를 정리한다. 
+
 2. GC 수거 대상
 3. GC의 동작 순서
 Young 영역과 Old 영역은 서로 다른 메모리 구조로 되어 있기 때문에, 세부적인 동작 방식은 다르다. 하지만 기본적으로 가비지 컬렉션이 실행된다고 하면 다음의 2가지 공통적인 단계를 따르게 된다.
