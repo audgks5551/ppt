@@ -18,7 +18,30 @@ Sweep: Mark 단계에서 사용되지 않음으로 식별된 메모리를 해제
 Stop The World를 통해 모든 작업을 중단시키면, GC는 스택의 모든 변수 또는 Reachable 객체를 스캔하면서 각각이 어떤 객체를 참고하고 있는지를 탐색하게 된다. 그리고 사용되고 있는 메모리를 식별하는데, 이러한 과정을 Mark라고 한다. 이후에 Mark가 되지 않은 객체들을 메모리에서 제거하는데, 이러한 과정을 Sweep라고 한다.
 
 4. GC는 언제 일어날까?
+
 5. GC의 특징
+JAVA의 특징 중 하나로 메모리 관리를 개발자가 직접 명시적으로 수행하지 않고, JVM에서 자동으로 수행해 주며, 
+이와 같은 역할을 하는 프로세스를 GarbageCollector(GC)라 한다.
+
 6. GC의 종류
+Serial Garbage Collector
+- 주로 32비트 JVM에서 돌아가는 싱글쓰레드 어플리케이션에서 사용 ( 별도로 지정하지 않는 경우 기본 GC )
+- Minor GC 뿐 아니라 Major GC인 경우도 올스탑(stop-the-world)하는 싱글쓰레드 방식
+
+Parallel Collector(=Throughput Collector)
+- 64비트 JVM이나 멀티 CPU 유닉스 머신에서 기본 GC로 설정되어 있다.
+- MinorGC와 MajorGC 모두 멀티쓰레드를 사용.
+- MinorGC 뿐 아니라 Major GC인 경우도 올스탑
+
+CMS Collector (Concurrent Mark-Sweep)
+- Initial Mark 단계에서참조 상태인 객체를 짧은 시간에Marking 후,올스탑 없이 Concurrent Mark단계에서 참조상태 객체를 확인. 
+  Remark단계에서 변경되거나 추가된 객체를 확인. Concurrent Sweep 단계애서참조 되지 않는 객체를 정리.
+- CPU리소스를 많이 사용, 메모리 파편화가 단점.
+
+G1 Collector (Garbage First)
+- 기존 Young, Old 영역의 개념과 다른 Heap에 Resion 개념을 도입함.
+- 하나 이상의 Resion 에서 객체를 복사해 다른 Resion으로 이동 시키는 방식.
+- CMS와 비슷한 방식으로  동작 시작. Heap에 전역적으로 Marking 하고, 가장 많은 공간이 있는 곳 부터 메모리 회수 진행. 이 부분 때문에 Garbage First 라는 이름이 붙었다.
+- CMS Collector의 CPU리소스 및 메모리 파편화의 단점 해결.
 
 // 수정
