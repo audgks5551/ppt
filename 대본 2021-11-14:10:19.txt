@@ -22,7 +22,7 @@
 12.
 13. Garbage collector의 메모리 관리는 크게 두가지로 수행이 됩니다.
 	첫번째 stop the world
-	두번째 mark and sweep 입니다.
+	두번째 mark and sweep 입니다.11
 Garbage collection을 수행하기 위해서는 JVM이 힙메모리영역에 있는 참조되지 않는 객체를 정리하기 위해 응용프로그램을 멈추게 됩니다. 이것을 stop the world라고 합니다.
 그리고 stop the world가 수행이 되고 참조되지 않는 객체를 표시하여 삭제하고 참조되는 객체만 한 곳으로 압축을 하는 것을 mark and sweep라고 합니다.
 이 수행과정을 더 세분화하여 살펴보겠습니다.
@@ -46,7 +46,7 @@ Parallel Collector 처럼여러 스레드를 사용하고 짧은 GC시간이 보
 응용 프로그램 스레드의 실행을 중지하지 않고 모든 비용이 많이 드는 작업만 동시에수행합니다.
 25.
 26. 감사합니다.
-
+11
 
 
 
