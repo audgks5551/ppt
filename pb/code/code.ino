@@ -89,6 +89,20 @@
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
+int segmentLEDs[] = {2, 3, 4, 5, 6, 7};
+int segmentLEDsNum = 8;
+
+int digitForNum[10][8] = {
+  {1, 0, 0, 1, 1, 1, 1, 1}, //1
+  {0, 0, 1, 0, 0, 1, 0, 1}, //2
+  {0, 0, 0, 0, 1, 1, 0, 1}, //3
+  {1, 0, 0, 1, 1, 0, 0, 1}, //4
+  {0, 1, 0, 0, 1, 0, 0, 1}, //5
+  {0, 1, 0, 0, 0, 0, 0, 1}, //6
+  {0, 0, 0, 1, 1, 1, 1, 1}, //7
+  {0, 0, 0, 0, 0, 0, 0, 1}, //8
+  {0, 0, 0, 0, 1, 0, 0, 1}  //9
+};
 
 int tonepin = 9;
 int melodySize2 = 75;
@@ -174,10 +188,19 @@ void setup()
   irrecv.enableIRIn();
   pinMode(tonepin, OUTPUT);
   Serial.begin(9600);
+  for (int i = 0 ; i < segmentLEDsNum ; i++) {
+    pinMode(segmentLEDs[i], OUTPUT);
+  }
 }
 
 void loop()
 {
+  for (int i = 0 ; i < 10 ; i++) {
+    // 각 숫자에 대한 각각 LED의 로직레벨을 설정합니다.
+    for (int j = 0 ; j < segmentLEDsNum ; j++) {
+      digitalWrite(segmentLEDs[j], digitForNum[i][j]);
+    }
+  
   if(irrecv.decode(&results)) {
     Serial.println(results.value, HEX);
     
@@ -236,4 +259,5 @@ void loop()
     irrecv.resume();
   }
  
+}
 }
