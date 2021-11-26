@@ -89,11 +89,11 @@
 #define NOTE_CS8 4435
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
-int segmentLEDs[] = {2, 3, 4, 5, 6, 7};
+int segmentLEDs[] = {2, 3, 4, 5, 6, 7, 8};
 int segmentLEDsNum = 8;
 
 int digitForNum[10][8] = {
-  {1, 0, 0, 1, 1, 1, 1, 1}, //1
+  {1, 0, 0, 0, 0, 0, 0, 0}, //1
   {0, 0, 1, 0, 0, 1, 0, 1}, //2
   {0, 0, 0, 0, 1, 1, 0, 1}, //3
   {1, 0, 0, 1, 1, 0, 0, 1}, //4
@@ -104,7 +104,7 @@ int digitForNum[10][8] = {
   {0, 0, 0, 0, 1, 0, 0, 1}  //9
 };
 
-int tonepin = 9;
+int tonepin = 13;
 int melodySize2 = 75;
 int Titanic_note[] = {
 NOTE_E4, NOTE_B4, NOTE_E5, NOTE_E5, NOTE_E5, NOTE_B4, NOTE_E4, NOTE_E4, NOTE_B4, NOTE_E5, 
@@ -179,32 +179,52 @@ int noteDurations3[] = {
   3, 3, 3
 };
 
-
-IRrecv irrecv(8);
+IRrecv irrecv(12);
 decode_results results;
 
 void setup()
 {
   irrecv.enableIRIn();
   pinMode(tonepin, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(8, OUTPUT);
   Serial.begin(9600);
+  /*
   for (int i = 0 ; i < segmentLEDsNum ; i++) {
     pinMode(segmentLEDs[i], OUTPUT);
   }
+  */
 }
 
 void loop()
 {
-  for (int i = 0 ; i < 10 ; i++) {
-    // 각 숫자에 대한 각각 LED의 로직레벨을 설정합니다.
-    for (int j = 0 ; j < segmentLEDsNum ; j++) {
-      digitalWrite(segmentLEDs[j], digitForNum[i][j]);
-    }
+
+  digitalWrite(2, 1);
+  digitalWrite(3, 1);
+  digitalWrite(4, 1);
+  digitalWrite(5, 1);
+  digitalWrite(6, 1);
+  digitalWrite(7, 1); 
   
   if(irrecv.decode(&results)) {
     Serial.println(results.value, HEX);
     
     if(results.value == 0xFF30CF) {
+      digitalWrite(2, 0);
+      digitalWrite(3, 0);
+      digitalWrite(4, 0);
+      digitalWrite(5, 0);
+      digitalWrite(6, 0);
+      digitalWrite(7, 0); 
+      
+      
+      digitalWrite(3, 1);
+      digitalWrite(4, 1);
       delay(300);
       for (int i = 0; i < (sizeof(Titanic_note)/sizeof(int)); i++) {   
         int Durations = 1000/noteDurations1[i];
@@ -220,8 +240,24 @@ void loop()
         }
         irrecv.resume();
       }
+      digitalWrite(3, 0);
+      digitalWrite(4, 0);
     } 
     else if (results.value == 0xFF18E7) {
+
+      digitalWrite(2, 0);
+      digitalWrite(3, 0);
+      digitalWrite(4, 0);
+      digitalWrite(5, 0);
+      digitalWrite(6, 0);
+      digitalWrite(7, 0); 
+
+      digitalWrite(2, 1);
+      digitalWrite(3, 1);
+      digitalWrite(5, 1);
+      digitalWrite(6, 1);
+      digitalWrite(8, 1);
+      
       delay(300);
       for (int i = 0; i < 75; i++) {   
         int Durations = 1000/noteDurations2[i];
@@ -237,8 +273,28 @@ void loop()
         }
         irrecv.resume();
       }
+
+      digitalWrite(2, 0);
+      digitalWrite(3, 0);
+      digitalWrite(5, 0);
+      digitalWrite(6, 0);
+      digitalWrite(8, 0);
+      
     }
     else if (results.value == 0xFF7A85) {
+
+      digitalWrite(2, 0);
+      digitalWrite(3, 0);
+      digitalWrite(4, 0);
+      digitalWrite(5, 0);
+      digitalWrite(6, 0);
+      digitalWrite(7, 0); 
+
+      digitalWrite(2, 1);
+      digitalWrite(3, 1);
+      digitalWrite(4, 1);
+      digitalWrite(5, 1);
+      digitalWrite(8, 1);
       delay(300);
       for (int i = 0; i < 28; i++) {   
         int Durations = 1000/noteDurations3[i];
@@ -254,10 +310,17 @@ void loop()
         }
         irrecv.resume();
       }
+
+      digitalWrite(2, 0);
+      digitalWrite(3, 0);
+      digitalWrite(4, 0);
+      digitalWrite(5, 0);
+      digitalWrite(8, 0);
     }
     delay(30);
     irrecv.resume();
+
+    
   }
  
-}
 }
